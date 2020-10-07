@@ -20,6 +20,7 @@ Linux从最上层到最底层可以划分为如下五个部分：
 
 https://wiki.archlinux.org/index.php/Arch_boot_process_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
 https://wiki.archlinux.org/index.php/Init
+https://zhuanlan.zhihu.com/p/50367649
 https://unix.stackexchange.com/questions/13290/init-process-ancestor-of-all-processes
 https://superuser.com/questions/377572/what-is-the-main-purpose-of-the-swapper-process-in-unix
 
