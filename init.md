@@ -1,5 +1,6 @@
 <!-- 本书的定位是短篇，科普向，外加一点点专业知识。 -->
 一般来说，Linux是对以Linux为内核的操作系统的统称，与Windows操作系统和MacOS操作系统属并列关系。  
+Linux 系统的核心是内核。内核控制着计算机系统上的所有硬件和软件，在必要时分配硬件，并根据需要执行软件。
 Linux从最上层到最底层可以划分为如下五个部分：
 - 应用软件(微信，qq等)
 - 图形化桌面环境(Desktop Environment)
@@ -14,21 +15,33 @@ Linux从最上层到最底层可以划分为如下五个部分：
 - 硬件设备管理
 - 文件系统管理
 
-## TODO linux启动过程(init等)
+## TODO linux启动过程(从加电开始的流程)
 
-在「早期用户空间」的最终环节里，真正的根文件系统被挂载好后，就会替换掉原来的伪根文件系统。接着 /sbin/init 被执行，同样也替换掉原来的 /init 进程。Arch 御用的 pid为1的 进程 是 systemd (简体中文). 传统的为SysVinit[https://wiki.archlinux.org/index.php/SysVinit]
+在「早期用户空间」的最终环节里，真正的根文件系统被挂载好后，就会替换掉原来的伪根文件系统。接着 /sbin/init 被执行，同样也替换掉原来的 /init 进程。
 
+ref:
 https://wiki.archlinux.org/index.php/Arch_boot_process_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
+
+## PID 0/1/2 都是什么
+如果运行命令
+
+```bash
+ps -ef
+```
+可以看到PID1为/sbin/init(init)，PID2为kthreadd。PID1和2，是列表中其余全部进程的祖先，这一点可以从PPID(父进程PID)一列看出。  
+pid为1的init(/sbin/init) 以及 kthreadd 是在引导时由内核直接创建的，因此它们没有父进程。 在其ppid字段中使用值0表示这一点。 在这里，可以将0视为“内核本身”。
+
+通常，PID1为所有用户进程的祖先，而PID2为所有`内核代码进程`的祖先。Linux中存在一些执行内核代码的进程，但是在调度层面，它们都作为用户进程进行管理，这些进程都是由pid为2的kthreadd创建的。他们的区别也可以通过进程名称一列区分出：全部内核代码进程的名称都被方括号所包裹。
+
+在一些-过时的-教材中，你可能看到pid0有几个常见的名字,swapper/scheduler/idle 。前两个名字都是Unix历史原因，可不理会。实际上大多数Unix已不进行进程swap交换。在linux,swapper不交换任何东西，它仅仅是一个idle进程，可以将其视作linux内核的一部分。pid0进程是运行cpu_idle（）的空闲进程。 它只是无限循环地无所作为。 它的存在使得总是有一个准备好要计划的任务。
+
+在ArchLinux等众多现代Linux发行版中，pid为1的/sbin/init通常为复合型的systemd实现。传统的实现为SysVinit[https://wiki.archlinux.org/index.php/SysVinit]
+
+ref:
 https://wiki.archlinux.org/index.php/Init
 https://zhuanlan.zhihu.com/p/50367649
 https://unix.stackexchange.com/questions/13290/init-process-ancestor-of-all-processes
 https://superuser.com/questions/377572/what-is-the-main-purpose-of-the-swapper-process-in-unix
-
-
-《待考证》
-pid0有几个常见的名字,swapper/scheduler/idle 。前两个名字都是Unix历史原因，可不理会。实际上大多数Unix已不进行swap交换。在linux,swapper不交换任何东西，它仅仅是一个idle进程，可以将其视作linux内核的一部分。pid0进程是运行cpu_idle（）的空闲进程。 它只是无限循环地无所作为。 它的存在使得总是有一个准备好要计划的任务。
-
-pid为1的/sbin/init 以及 kthreadd均有pid0（内核）创造
 
 ## 系统内存管理
 除了真实的物理内存(内存条)，Linux还存在一个交换空间(swap space)的概念。交换空间是在你的硬盘设备上提前分配好的一块区域。假如运行Dota2需要4G的内存空间，但是你的内存条只有2G,不够运行Dota2.那么此时如果你有已经分配好的交换空间，就可以使用2G交换空间 + 2G物理内存的方式运行Dota2.真实的物理内存和交换空间两部分加在一起统称为`虚拟内存`，Linux内核即提供对虚拟内存的管理。  
@@ -42,3 +55,10 @@ Linux内核会记录哪些页面正在使用，并且会把一段时间内未访
 ## 系统软件进程管理
 
 Linux中运行的程序一般称为进程。内核对进程采取相应的管理和控制。为了尽可能充分地压榨 CPU 性能，内核使用调度器，通过一定的优先级算法将 CPU 按照时间动态的分配给各个进程。让我们感觉就像所有进程都在同时使用 CPU 一样。 
+
+## GNU 工具组
+
+## 图形化桌面环境 & 应用软件
+
+## Linux 发行版
+
