@@ -86,11 +86,53 @@ GNU/Linux shell是一种特殊的交互式工具。它为用户提供了启动�
 
 ## 图形化桌面环境(Desktop Environment)
 
+如果你安装过Arch Linux，那么你应该知道，系统初步安装完毕后，只提供一个黑白的终端交互界面，用户可以在终端里输入命令，查看结果。如果想进一步拥有一个和Windows一样的图形化界面，就需要安装额外的一些软件包。需要有程序提供从显卡到显示器的互通。即直接和PC上的显卡及显示器打交道的底层程序。它控制着Linux程序如何在电脑上显示窗口和图形。目前的主流实现`方式`有两种，X window协议的第十一版(X11)以及Wayland协议。
+
+### X window协议第十一版(X11)
+此协议的具体实现为xorg。Xorg装好之后其实已经提供显示服务器了，即使不安装窗口管理器/DE也能用,有显示服务器就能单个 gui 程序了。但是wayland这个包只提供协议，想能用的话必须再另装混成器，或者自带混成器的DE。
+
+Xorg-server可以产生图形化显示环境，但仅此而已。虽然对于运行独立应用这已经足够，但在日常PC使用中却并不是那么有用。它没有桌面环境供用户操作文件或是开启程序。为此，你还需要一个建立在xorg之上的桌面环境。
+
+
+### wayland
+wayland是一个相对于X11的设计来说，是一个新的协议，对于一些X11因为历史原因的设计进行了优化。archlinux上wayland 包只是协议，要用 wayland 还需要实现了 wayland 的显示服务器，通常它也是 wayland 混成器和 wayland 窗口管理器或者桌面环境，wayland 协议下要把这三个分开比较困难。
+
+
+## 常见的桌面环境(或者窗口管理器)
+
+主流常见DE：KDE，Gnome，DDE
 
 轻量级DE： xfce  fvwm3
 
+窗口管理器：i3
+
+
 ## Linux 发行版
 
+名词`Linux发行版`，可以理解为是和`Windows系统`是同级的概念。其含有内核、一个或多个图形化桌面环境以及预编译好的几乎所有能见到的Linux应用。下面列举一些常见的流行的Linux发行版。
+TODO 补充。删除。完善
+Slackware 最早的Linux发行版中的一员，在Linux极客中比较流行
+Red Hat 主要用于Internet服务器的商业发行版
+Fedora 从Red Hat分离出的家用发行版
+Gentoo 为高级Linux用户设计的发行版，仅包含Linux源代码
+openSUSE 用于商用和家用的发行版
+Debian 在Linux专家和商用Linux产品中流行的发行版
+
+
+
+CentOS 一款基于Red Hat企业版Linux源代码构建的免费发行版
+Ubuntu 一款用于学校和家庭的免费发行版
+PCLinuxOS 一款用于家庭和办公的免费发行版
+Mint 一款用于家庭娱乐的免费发行版
+dyne:bolic 一款用于音频和MIDI应用的免费发行版
+Puppy Linux 一款适用于老旧PC的小型免费发行版
+
+
+
+## LiveCD
+
+
+现在的usb livecd改动数据还会消失吗？ 回去确认
 
 
 
