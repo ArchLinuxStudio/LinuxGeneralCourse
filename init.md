@@ -183,3 +183,57 @@ https://wiki.archlinux.org/index.php/Init
 https://zhuanlan.zhihu.com/p/50367649
 https://unix.stackexchange.com/questions/13290/init-process-ancestor-of-all-processes
 https://superuser.com/questions/377572/what-is-the-main-purpose-of-the-swapper-process-in-unix
+
+
+
+
+---
+## 文件系统简述
+如果你刚接触Linux系统，可能就很难弄清楚Linux如何引用文件和目录，对已经习惯Microsoft  Windows操作系统方式的人来说更是如此。在继续探索Linux系统之前，先了解一下它的布局是有好处的。你将注意到的第一个不同点是，Linux在路径名中不使用驱动器盘符。在Windows中，PC上安装的物理驱动器决定了文件的路径名。Windows会为每个物理磁盘驱动器分配一个盘符，每个驱动器都会有自己的目录结构，以便访问存储其中的文件。
+
+举个例子，在Windows中经常看到这样的文件路径：
+```bash
+c:\Users\Rich\Documents\test.doc 
+```
+这种Windows文件路径表明了文件test.doc究竟位于哪个磁盘分区中。如果你将test.doc保存在闪存上，该闪存由J来标识，那么文件的路径就是J:\test.doc。该路径表明文件位于J盘的根目录下。Linux则采用了一种不同的方式。Linux将文件存储在单个目录结构中，这个目录被称为虚拟目录（virtual directory）。虚拟目录将安装在PC上的所有存储设备的文件路径纳入单个目录结构中。Linux虚拟目录结构只包含一个称为根（root）目录的基础目录。根目录下的目录和文件会按照访问它们的目录路径一一列出，这点跟Windows类似。
+
+
+你将会发现Linux使用正斜线（/）而不是反斜线（\）在文件路径中划分目录。在Linux中，反斜线用来标识转义字符，要是用在文件路径中的话会导致各种各样的问题。如果你之前用的是Windows环境，就需要一点时间来适应。
+
+
+在Linux中，你会看到下面这种路径：
+
+/home/Rich/Documents/test.doc 
+
+这表明文件test.doc位于Documents目录，Documents又位于rich目录中，rich则在home目录中。
+要注意的是，路径本身并没有提供任何有关文件究竟存放在哪个物理磁盘上的信息。
+Linux虚拟目录中比较复杂的部分是它如何协调管理各个存储设备。
+在Linux  PC上安装的第一块硬盘称为根驱动器。根驱动器包含了虚拟目录的核心，其他目录都是从那里开始构建的。Linux会在根驱动器上创建一些特别的目录，我们称之为挂载点（mount point）。挂载点是虚拟目录中用于分配额外存储设备的目录。虚拟目录会让文件和目录出现在这些挂载点目录中，然而实际上它们却存储在另外一个驱动器中。
+
+通常系统文件`/`根目录会存储在根驱动器中，而用户文件`/home`目录则存储在另一驱动器中。
+
+Linux文件系统结构是从Unix文件结构演进过来的。在Linux文件系统中，通用的目录名用于表示一些常见的功能。[维基百科](https://zh.wikipedia.org/wiki/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84%E6%A0%87%E5%87%86)列出了一些较常见的Linux顶层虚拟目录名及其内容。
+
+
+/      虚拟目录的根目录。通常不会在这里存储文件
+/boot   启动目录，存放启动文件
+/dev    设备目录，Linux在这里创建设备节点
+/etc    系统配置文件目录
+/lib    库目录，存放系统和应用程序的库文件
+/media  媒体目录，可移动媒体设备的常用挂载点
+/home   主目录，Linux在这里创建用户目录
+/root   root用户的主目录
+/run    运行目录，存放系统运作时的运行时数据
+/mnt    挂载目录，另一个可移动媒体设备的常用挂载点
+/opt    可选目录，常用于存放第三方软件包和数据文件
+/proc   进程目录，存放现有硬件及当前进程的相关信息
+/bin    二进制目录，存放许多用户级的GNU工具
+/sbin   系统二进制目录，存放许多GNU管理员级工具
+/usr    用户二进制目录，大量用户级的GNU工具和数据文件都存储在这里
+/srv    服务目录，存放本地服务的相关文件
+/sys    系统目录，存放系统硬件信息的相关文件
+/tmp    临时目录，可以在该目录中创建和删除临时工作文件
+/var    可变目录，用以存放经常变化的文件，比如日志文件
+
+
+常见的目录名均基于文件系统层级标准（filesystem  hierarchy  standard，FHS）。很多Linux发行版都遵循了FHS。这样一来，你就能够在任何兼容FHS的Linux系统中轻而易举地查找文件。
