@@ -1,2 +1,3 @@
 # LinuxGeneralCourse
 Linux简明通识教程
+只写了一点点，有空的时候会继续写的，优先级目前低于ShellTutorial
